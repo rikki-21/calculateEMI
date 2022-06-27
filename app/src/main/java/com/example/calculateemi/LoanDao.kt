@@ -1,23 +1,21 @@
 package com.example.calculateemi
 
-import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import com.example.calculateemi.database.entity.Loan
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LoanDao {
 
-    @Query("SELECT*FROM InterestRates")
-    fun fetchAllInterestRates() : LiveData<List<InterestRates>>
+    @Query("SELECT*FROM InterestRates LIMIT 20")
+    fun fetchAllInterestRates() : Flow<List<Loan>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertInterestRates(interestRates: InterestRates )
+    @Insert //(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertInterestRates(loan: Loan)
 
-    @Query("DELETE FROM InterestRates where productName = :loanType")
-    suspend fun deleteInterestRatesByType(loanType:String)
+    //@Query("DELETE FROM InterestRates where productName = :loanType")
+    //suspend fun deleteInterestRatesByType(loanType:String)
 
-    @Query("DELETE FROM InterestRates")
+    @Query ("DELETE FROM InterestRates")
     suspend fun deleteAllInterestRates()
 }

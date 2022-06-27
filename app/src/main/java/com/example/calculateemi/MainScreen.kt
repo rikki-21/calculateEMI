@@ -20,8 +20,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.calculateemi.database.entity.Loan
 import com.example.calculateemi.viewmodel.LoansViewmodel
 import com.example.calculateemi.viewmodel.LoansViewmodelFactory
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun MainScreen(navController: NavHostController) {
@@ -30,8 +32,7 @@ fun MainScreen(navController: NavHostController) {
     val mLoansViewmodel : LoansViewmodel = viewModel(
         factory = LoansViewmodelFactory(context.applicationContext as Application)
     )
-    val items = mLoansViewmodel.readAllData.value
-
+    val items = mLoansViewmodel.readAllData
 
     Box(
         modifier = Modifier
@@ -43,6 +44,8 @@ fun MainScreen(navController: NavHostController) {
         var mortgage by remember { mutableStateOf(TextFieldValue("")) }
         var interest by remember { mutableStateOf(TextFieldValue("")) }
         var months by remember { mutableStateOf(TextFieldValue("")) }
+
+
         Column {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -81,18 +84,9 @@ fun MainScreen(navController: NavHostController) {
                     )
                 )
             }
-
+            Spacer(modifier = Modifier.padding(bottom = 10.dp))
             Button(onClick = { navController.navigate("CalculateEMI/${mortgage.text.toInt()}/${interest.text.toInt()}/${months.text.toInt()}")}) {
                 Text(text = "calculate emi")
-            }
-        }
-        Spacer(modifier = Modifier.padding(bottom = 10.dp))
-        
-        LazyColumn(){
-            if (items != null)
-            items(items){
-                item: InterestRates ->
-                Text(text = item.productName)
             }
         }
     }

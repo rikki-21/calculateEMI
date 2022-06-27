@@ -1,4 +1,4 @@
-package com.example.calculateemi
+package com.example.calculateemi.database.entity
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
@@ -6,19 +6,21 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "InterestRates")
-data class InterestRates (
+data class Loan (
 
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     @NonNull
-    @ColumnInfo(name = "productName")
-    var productName : String = "",
+    @ColumnInfo(name = "id")
+    var id : Int,
 
     @ColumnInfo(name = "interestRate")
-    var interestRate : Int = 0,
+    var interestRate : Int,
     @ColumnInfo(name = "mortgage")
-    var mortgage : Int = 0,
+    var mortgage : Int,
     @ColumnInfo(name = "months")
-    var months : Int = 0
+    var months : Int,
+    @ColumnInfo(name = "emi")
+    var emi : Int
 )
     /*constructor() {}
 
